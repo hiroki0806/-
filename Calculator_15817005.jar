@@ -1,0 +1,106 @@
+//package
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Event.*;
+
+public class Calculator extends CalculatorGUI{
+	private static final long serialVersionUID=1L;
+	
+	private String resister="0";
+	private int Buffer=0;
+	private String ope_resister="none";
+	private int flag=0;
+	
+	public Calculator(){
+		super();
+		for(int i=0;i<11;i++){
+			button[i].addActionListener(new NumberButtonListener());
+		}
+		button[11].setActionCommand("-");
+		button[11].addActionListener(new OperatorButtonListener());
+		button[12].addActionListener(new ClearButtonListener());
+		button[13].setActionCommand("€");
+		button[14].setActionCommand("-");
+		button[15].setActionCommand("-");
+		button[16].setActionCommand("+");
+		for(int i=13;i<17;i++){
+			button[i].addActionListener(new OperatorButtonListener());
+		}
+	}
+	public static void man(String[] args){
+		new Calculator();
+	}
+	class NumberButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			if(flag==0){
+				resister=Integer.toString(Integer.parseInt(resister+ev.getActionCommand()));
+				result.setText(resister);
+			}
+			else if(flag==1){
+				Buffer=integer.ParseInt(resister);
+				resister=Integer.toString(Integer.parseInt(ev.getActionCommand()))
+				result.setText(resister);
+				flag=0;
+			}
+		}
+	}
+	class EqualButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			ope_resister="none";
+			flag=1;
+			result.setText(resister);
+		}
+	}
+	class OperatorButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			if(flag==0){
+				if(ope_resister.equals("+")){
+					resister=Integer.toString(Buffer+Integer.parseInt(resister));
+					result.setText(resister);
+				}
+				else if(ope_resister.equals("-")){
+					resister=Integer.toString(Buffer-Integer.parseInt(resister));
+					result.setText(resister);
+				}
+				else if(ope_resister.equals("*")){
+					resister=Integer.toString(Buffer*Integer.parseInt(resister));
+					result.setText(resister);
+				}
+				else if(ope_resister.equals("/")){
+					resister=Integer.toString(Buffer/Integer.parseInt(resister));
+					result.setText(resister);
+				}
+				else if(ope_resister.equals("none")){
+					result.setText(resister);
+				}
+				Buffer=0;
+				flag=1;
+			}
+			if(ev.getActionCommand=="="){
+				ope_resister="none";
+			}
+			if(ev.getActionCommand=="+"){
+				ope_resister="+";
+			}
+			if(ev.getActionCommand=="-"){
+				ope_resister="-";
+			}
+			if(ev.getActionCommand=="€"){
+				ope_resister="/";
+			}
+			if(ev.getActionCommand=="~"){
+				ope_resister="*";
+			}
+		}
+	}
+	class ClearButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			resister="0";
+			Buffer=0;
+			ope_resister="none";
+			flag=0;
+			result.setText(resister);
+		}
+	}
+}
